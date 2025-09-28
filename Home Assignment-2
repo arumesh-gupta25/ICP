@@ -1,0 +1,54 @@
+# Merge Sorted Array
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int[]num=Arrays.copyOf(nums1,m);
+        int i=0, j=0, k=0;
+        while(i<m && j<n){
+            if(num[i]<nums2[j]){
+                nums1[k++]=num[i++];
+            }
+            else{
+                nums1[k++]=nums2[j++];
+            }
+        }
+        while(i<m) nums1[k++]=num[i++];
+        while(j<n) nums1[k++]=nums2[j++];
+    }
+}
+
+
+# Kth Largest Element in an Array (215)
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+       PriorityQueue<Integer>pq=new PriorityQueue<>();
+       for(int i=0; i<nums.length;i++){
+            pq.add(nums[i]);
+            if(pq.size()>k){
+                pq.poll();
+            }
+       }
+       return pq.poll();
+    }
+}
+
+
+# Valid Perfect Square
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        long s=1;
+        long e=num;
+        while(s<=e){
+            long mid=s+(e-s)/2;
+            if(mid*mid==num){
+                return true;
+            }
+            else if(mid*mid > num){
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+        }
+        return false;
+    }
+}
