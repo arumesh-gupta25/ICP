@@ -1,0 +1,119 @@
+# Longest Substring without repeating characters
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int l=0;
+        int r=0;
+        int []count=new int[128];
+        int n=s.length();
+        int len=0;
+        while(l<n){
+            char c=s.charAt(l);
+            count[c]++;
+            while(count[c]>1){
+                count[s.charAt(r)]--;
+                r++;
+            }
+            len=Math.max(len,l-r+1);
+            l++;
+        }
+        return len;
+    }
+}
+
+# Permutation in String
+
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) return false;
+
+        int[] count1 = new int[26];
+        int[] count2 = new int[26]; 
+        for (char c : s1.toCharArray()) {
+            count1[c - 'a']++;
+        }
+
+        int len1 = s1.length();
+        int len2 = s2.length();
+
+
+        for (int i = 0; i < len1; i++) {
+            count2[s2.charAt(i) - 'a']++;
+        }
+
+        if (matches(count1, count2)) return true;
+
+        
+        for (int i = len1; i < len2; i++) {
+            count2[s2.charAt(i) - 'a']++;             
+            count2[s2.charAt(i - len1) - 'a']--;        
+
+            if (matches(count1, count2)) return true;
+        }
+
+        return false;
+    }
+
+    private boolean matches(int[] a, int[] b) {
+        for (int i = 0; i < 26; i++) {
+            if (a[i] != b[i]) return false;
+        }
+        return true;
+    }
+}
+
+# Find all Anagrams in a String
+
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer>a=new ArrayList<>();
+       int m=s.length();
+       int n=p.length();
+       if(m<n){
+        return a;
+       }
+       int []scount=new int[26];
+       int []pcount=new int[26];
+       for(char c:p.toCharArray()){
+        pcount[c-'a']++ ;
+       }
+
+       for(int i=0;i<m;i++){
+        scount[s.charAt(i)-'a']++ ;
+
+        if(i>=n){
+            scount[s.charAt(i-n)-'a']--;
+        }
+        if(Arrays.equals(scount,pcount)){
+            a.add(i-n+1);
+        }
+       }
+       return a;
+    }
+}
+
+# Max Consecutive Ones III 
+class Solution {
+    public int longestOnes(int[] nums, int k) {
+        int l=0;
+        int r=0;
+        int count=0;
+        int n=nums.length;
+        int len=0;
+        while(l<n){
+            if(nums[l]==0){
+                count++;
+            }
+            while(count>k){
+                if(nums[r]==0){
+                    count--;
+                    
+                }
+                r++;
+            }
+            len=Math.max(len,l-r+1);
+            l++;
+
+        }
+        return len; 
+    }
+}
