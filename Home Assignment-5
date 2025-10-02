@@ -1,0 +1,113 @@
+# Minimum number of Arrows to burst balloons
+import java.util.*;
+
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+       if(points.length ==0){
+        return 0;
+       }
+       Arrays.sort(points,(a,b) -> Integer.compare(a[1],b[1]));
+       int arrows=1;
+       int a=points[0][1];
+
+       for(int i=1;i<points.length;i++){
+        if(points[i][0]>a){
+            arrows++;
+            a=points[i][1];
+        }
+       }
+       return arrows;
+    }
+}
+
+# Non-Overlapping Intervals
+class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        int count=0;
+        int n=intervals.length;
+        int end=Integer.MIN_VALUE;
+        Arrays.sort(intervals,(a,b) -> a[1]-b[1]);
+        for(int[]interval :intervals){
+            if(interval[0]>=end){
+                count++;
+                end=interval[1];
+            }
+        }
+        return n-count;
+    }
+}
+
+# Queue Reconstruction by Height
+import java.util.*;
+
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        
+        Arrays.sort(people, (a, b) -> {
+            if (a[0] == b[0]) return a[1] - b[1];
+            return b[0] - a[0];
+        });
+
+        List<int[]> result = new LinkedList<>();
+        for (int[] p : people) {
+            result.add(p[1], p);
+        }
+
+        return result.toArray(new int[people.length][2]);
+    }
+}
+
+# Lemonade Change
+class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int f=0,t=0;
+        for(int bill: bills){
+            if(bill==5){
+                f++;
+            }
+            else if(bill==10){
+                if(f>0){
+                    f--;
+                    t++;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                if(t>0 && f>0){
+                    t--;
+                    f--;
+                }
+                else if(f>=3){
+                    f-=3;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+} 
+
+# Boats to Save People
+import java.util.Arrays;
+
+class Solution {
+    public int numRescueBoats(int[] people, int limit) {
+        Arrays.sort(people);
+        int i = 0, j = people.length - 1;
+        int boats = 0;
+
+        while (i <= j) {
+            if (people[i] + people[j] <= limit) {
+                i++; 
+            }
+            j--;  
+            boats++;
+        }
+
+        return boats;
+    }
+}
