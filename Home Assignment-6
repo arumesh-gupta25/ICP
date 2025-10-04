@@ -1,0 +1,82 @@
+# Word Search
+class Solution {
+    public static boolean path(char[][] board,int a,int b,int m,int n,int index,String word){
+        if(index==word.length()){
+            return true;
+        }
+        if(a<0 || b<0 || a>=m || b>=n || board[a][b]!=word.charAt(index)){
+            return false;
+        }
+        char temp = board[a][b];
+        board[a][b] = '#';
+        boolean found = path(board,  a + 1, b,m,n, index + 1,word) ||
+                        path(board,  a - 1, b,m,n, index + 1,word) ||
+                        path(board,  a, b + 1,m,n, index + 1,word) ||
+                        path(board,  a, b - 1,m,n, index + 1,word);
+        board[a][b] = temp;
+
+        return found;
+
+    }
+
+    public boolean exist(char[][] board, String word) {
+        int m=board.length;
+        int n=board[0].length;
+        boolean[][]b= new boolean[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(path(board,i,j,m,n,0,word)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+# Combinations
+class Solution {
+       List<List<Integer>>res=new ArrayList<>();
+    public List<List<Integer>> combine(int n, int k) {
+     
+        b(n,k,new ArrayList<>(),1);
+        return res;
+    }
+    public void b(int n,int k,ArrayList<Integer>l,int index){
+        if(l.size()==k){
+            res.add(new ArrayList<>(l));
+            return;
+        }
+        if(index>n) return;
+        l.add(index);
+        b(n,k,l,index+1);
+        l.remove(l.size()-1);
+        b(n,k,l,index+1);
+    } 
+}
+
+# Combination Sum II
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>>res=new ArrayList<>();
+        back(res,new ArrayList<>(),0,target,candidates,0);
+        return res;
+    }
+    public static void back(List<List<Integer>>res,ArrayList<Integer>arr,int index,int target,int[]candidates,int sum){
+        if(sum==target){
+            res.add(new ArrayList<>(arr));
+            return;
+        }
+        if(sum>target || index==candidates.length){
+            return;
+        }
+       
+        for(int i = index; i < candidates.length; i++){
+            if(i > index && candidates[i] == candidates[i-1]) continue; 
+            arr.add(candidates[i]);
+            back(res, arr, i + 1, target,candidates,sum+candidates[i]);
+            arr.remove(arr.size() - 1);
+        }
+    }
+}
